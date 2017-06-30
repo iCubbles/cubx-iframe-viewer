@@ -1,0 +1,125 @@
+{
+  "name": "cubx-iframe-viewer",
+  "groupId": "",
+  "version": "0.1.0-SNAPSHOT",
+  "modelVersion": "9.1.1",
+  "docType": "webpackage",
+  "author": {
+    "name": "Edwin Gamboa",
+    "email": "edwingamboa355@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": [],
+  "man": [],
+  "artifacts": {
+    "apps": [
+      {
+        "artifactId": "docs",
+        "description": "Generated webpackage documentation.",
+        "runnables": [
+          {
+            "name": "docs",
+            "path": "/index.html",
+            "description": "Show the interface of this component."
+          }
+        ]
+      }
+    ],
+    "elementaryComponents": [
+      {
+        "artifactId": "cubx-iframe-viewer",
+        "description": "Component to visualize another component within an iframe",
+        "runnables": [
+          {
+            "name": "demo",
+            "path": "/demo/index.html",
+            "description": "Demo app..."
+          },
+          {
+            "name": "docs",
+            "path": "/docs/index.html",
+            "description": "Show the interface of this component."
+          }
+        ],
+        "resources": [
+          "cubx-iframe-viewer.html"
+        ],
+        "dependencies": [
+          {
+            "webpackageId": "cubx.core.rte@2.3.1",
+            "artifactId": "cubxpolymer"
+          }
+        ],
+        "slots": [
+          {
+            "slotId": "artifactInfo",
+            "description": "Artifact id of the component to be visualized",
+            "type": "object",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "artifactId",
+            "description": "Artifact id of the component to be visualized",
+            "type": "string",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "webpackageId",
+            "description": "Id of the webpackage that holds the component to be visualized.",
+            "type": "string",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "inits",
+            "description": "Object containing key, value pairs in JSON format, e.g. {\"slot1Name\": slot1Value, \"slot2Name\": slot2Value}.",
+            "type": "object",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "dependencies",
+            "description": "Array containing  (JSON format) containing the dependencies like this: [{ \"webpackageId\" : \"valueX\", \"artifactId\" : \"valueY\"}, ...]..",
+            "type": "array",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "autoresize",
+            "description": "Boolean indicating whether the iframe should be resized according to content.",
+            "type": "boolean",
+            "direction": [
+              "input"
+            ],
+            "value": true
+          },
+          {
+            "slotId": "height",
+            "description": "Height to be set to the iframe, if autoresize=true, this will be only initial height.",
+            "type": "number",
+            "direction": [
+              "input"
+            ]
+          },
+          {
+            "slotId": "width",
+            "description": "Width to be set to the iframe, if autoresize=true, this will be only initial width.",
+            "type": "number",
+            "direction": [
+              "input"
+            ]
+          }
+        ]
+      }
+    ],
+    "compoundComponents": [],
+    "utilities": []
+  }
+}
