@@ -38,20 +38,6 @@
     },
 
     /**
-     *  Observe the Cubbles-Component-Model: If value for slot 'artifactId' has changed ...
-     */
-    modelArtifactIdChanged: function (artifactId) {
-      // this._createAppendComponent();
-    },
-
-    /**
-     *  Observe the Cubbles-Component-Model: If value for slot 'webpackageId' has changed ...
-     */
-    modelWebpackageIdChanged: function (webpackageId) {
-      // this._createAppendComponent();
-    },
-
-    /**
      *  Observe the Cubbles-Component-Model: If value for slot 'webpackageId' has changed ...
      */
     modelArtifactInfoChanged: function (artifactInfo) {
@@ -60,11 +46,20 @@
       this._createAppendComponent();
     },
 
+    /**
+     * Update references to the iframe document and window to then interact with the iframe.
+     * @private
+     */
     _updateIframeReferences: function () {
       this._iframeWindow = this.$$('iframe').contentWindow;
       this._iframeDocument = this.$$('iframe').contentDocument || this._iframeWindow.document;
     },
 
+    /**
+     * Reload the iframe and call the 'afterLoadFunction' if it is defined
+     * @param {function} [afterLoadFunction] - Function to be called when the iframe loads.
+     * @private
+     */
     _reloadIframe: function (afterLoadFunction) {
       this._iframeWindow.location.reload(true);
       this.$$('iframe').onload = function () {
@@ -101,6 +96,9 @@
 
     /**
      * Inject the crcLoader and webcomponents-lite scripts to the head
+     * @param {function} [onLoadCrc] - Function to be called after main script loads
+     * @param {function} [onLoadWebcomponents] - Function to be called after webcomponents-lite
+     * loads
      */
     _injectHeadScripts: function (onLoadCrc, onLoadWebcomponents) {
       var rteUrl = 'https://cubbles.world/sandbox/cubx.core.rte@2.3.1';
@@ -128,9 +126,12 @@
         this._reloadIframe(function () {
           this._initRootDependenciesArray();
           this._addRootDependency(
-            {artifactId: this.getArtifactId(), webpackageId: this.getWebpackageId()}
+            {
+              artifactId: this.getArtifactInfo().artifactId,
+              webpackageId: this.getArtifactInfo().webpackageId
+            }
           );
-          var component = this._iframeDocument.createElement(this.getArtifactId());
+          var component = this._iframeDocument.createElement(this.getArtifactInfo().artifactId);
           if (this.getInits()) {
             component.appendChild(this._createCoreInitElement(this.getInits()));
           }
@@ -143,20 +144,20 @@
     },
 
     /**
-     * Indicates whether the this.getWebpackageId() and the artifactId provided as url parameters have the
+     * Indicates whether the webpackageId and the artifactId provided as url parameters have the
      * correct syntax
      * @returns {boolean}
      */
     _validComponentIds: function () {
       var validParameters = true;
-      if (this.getWebpackageId() && this.getArtifactId()) {
+      if (this.getArtifactInfo().webpackageId && this.getArtifactInfo().artifactId) {
         var pattern = new RegExp('^([a-z0-9]+||([a-z0-9]+[a-z0-9-][a-z0-9]+)*)(\\.([a-z0-9]+||([a-z0-9]+[a-z0-9-][a-z0-9]+)*))*[@](\\d+)(\\.[\\d]+)*(-SNAPSHOT)?');
-        if (!pattern.test(this.getWebpackageId())) {
+        if (!pattern.test(this.getArtifactInfo().webpackageId)) {
           console.error('The webpackage-id is invalid. It should follow the pattern "webpackageName@webpackageVersion", eg. my-webpackage@3.1.1-SNAPSHOT');
           validParameters = false;
         }
         pattern = new RegExp('^[a-z0-9]+(-[a-z0-9]+)+$');
-        if (!pattern.test(this.getArtifactId())) {
+        if (!pattern.test(this.getArtifactInfo().artifactId)) {
           console.error('The artifact-id is invalid. It should be lowercase and dash separated, eg. my-component');
           validParameters = false;
         }
@@ -166,12 +167,17 @@
     },
 
     /**
-     * Add the dependencies provided as url parameter to the window.cubx object
+     * Add a dependency provided to the window.cubx.rootDependencies array
+     * @param {object} dependency - Root dependency, i.e {artifactId: ..., webpackageId: ...}
      */
     _addRootDependency: function (dependency) {
       this._iframeWindow.cubx.CRCInit.rootDependencies.push(dependency);
     },
 
+    /**
+     * Init the value of window.cubx.rootDependencies array
+     * @private
+     */
     _initRootDependenciesArray: function () {
       this._iframeWindow.cubx = {CRCInit: {rootDependencies: []}};
     },
