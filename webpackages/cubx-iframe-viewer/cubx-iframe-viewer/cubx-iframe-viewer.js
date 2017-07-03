@@ -1,3 +1,4 @@
+/* global MutationObserver */
 (function () {
   'use strict';
   /**
@@ -38,12 +39,38 @@
     },
 
     /**
-     *  Observe the Cubbles-Component-Model: If value for slot 'webpackageId' has changed ...
+     *  Observe the Cubbles-Component-Model: If value for slot 'artifactInfo' has changed ...
      */
     modelArtifactInfoChanged: function (artifactInfo) {
-      this.setArtifactId(artifactInfo.artifactId);
-      this.setWebpackageId(artifactInfo.webpackageId);
       this._createAppendComponent();
+    },
+
+    /**
+     *  Observe the Cubbles-Component-Model: If value for slot 'autoresize' has changed ...
+     */
+    modelAutoresizeChanged: function (autoresize) {
+      if (autoresize) {
+        this._addMutationObserver();
+      }
+    },
+
+    /**
+     * Add a MutationObserver to call the 'postIframeHeight' method when new nodes are added to the
+     * body or when the body data changes.
+     */
+    _addMutationObserver: function () {
+      var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          var boundingRect = this._iframeDocument.querySelector(this.getArtifactInfo().artifactId).getBoundingClientRect();
+          var newHeight = boundingRect.bottom + boundingRect.top;
+          if (newHeight !== this._iframeDocument.height) {
+            this.$$('iframe').height = newHeight;
+          }
+        }.bind(this));
+      }.bind(this));
+
+      var targetNode = this._iframeDocument.body;
+      observer.observe(targetNode, { childList: true, subtree: true, attributes: true });
     },
 
     /**
@@ -64,6 +91,9 @@
       this._iframeWindow.location.reload(true);
       this.$$('iframe').onload = function () {
         this._updateIframeReferences();
+        if (this.getAutoresize()) {
+          this._addMutationObserver();
+        }
         if (afterLoadFunction) {
           afterLoadFunction();
         }
@@ -134,6 +164,11 @@
           var component = this._iframeDocument.createElement(this.getArtifactInfo().artifactId);
           if (this.getArtifactInfo().inits) {
             component.appendChild(this._createCoreInitElement(this.getArtifactInfo().inits));
+          }
+          if (this.getArtifactInfo().dependencies) {
+            this.getArtifactInfo().dependencies.forEach(function (dep) {
+              this._addRootDependency(dep);
+            }.bind(this));
           }
           this._injectHeadScripts(function () {
             this._iframeDocument.body.appendChild(component);

@@ -97,8 +97,7 @@
             "type": "boolean",
             "direction": [
               "input"
-            ],
-            "value": true
+            ]
           },
           {
             "slotId": "height",
@@ -114,7 +113,8 @@
             "type": "number",
             "direction": [
               "input"
-            ]
+            ],
+            "value": "100%"
           }
         ]
       }

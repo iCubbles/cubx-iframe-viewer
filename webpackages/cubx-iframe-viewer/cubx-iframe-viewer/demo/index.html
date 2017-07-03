@@ -22,8 +22,8 @@
 <cubx-iframe-viewer cubx-webpackage-id="this">
     <cubx-core-init style="display:none">
         <cubx-core-slot-init slot="artifactInfo">{
-            "webpackageId": "com.incowia.lib.chart-library@0.3.0",
-            "artifactId": "bar-chart"
+            "webpackageId": "cubx-generic-component-viewer@1.0.0",
+            "artifactId": "cubx-generic-component-viewer"
             }</cubx-core-slot-init>
     </cubx-core-init>
 </cubx-iframe-viewer>
@@ -31,10 +31,33 @@
 <cubx-iframe-viewer cubx-webpackage-id="this">
     <cubx-core-init style="display:none">
         <cubx-core-slot-init slot="artifactInfo">{
-            "webpackageId": "com.incowia.lib.chart-library@0.3.0",
-            "artifactId": "bar-chart",
-            "inits":{"dataColumns":[["Product A",1000,500,1500,1100],["Product B",300,400,700,500]],"xLabels":["January","February","March","April"]}
+            "webpackageId": "cubx-generic-component-viewer@1.1.0-SNAPSHOT",
+            "artifactId": "cubx-generic-component-viewer",
+            "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]}}
             }</cubx-core-slot-init>
+    </cubx-core-init>
+</cubx-iframe-viewer>
+
+<cubx-iframe-viewer cubx-webpackage-id="this">
+    <cubx-core-init style="display:none">
+        <cubx-core-slot-init slot="artifactInfo">{
+            "webpackageId": "cubx-generic-component-viewer@1.1.0-SNAPSHOT",
+            "artifactId": "cubx-generic-component-viewer",
+            "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]}},
+            "dependencies":[{"webpackageId": "bootstrap-3.3.5@1.1.1","artifactId": "bootstrap-bootstrap-css-only"}]
+            }</cubx-core-slot-init>
+    </cubx-core-init>
+</cubx-iframe-viewer>
+
+<cubx-iframe-viewer cubx-webpackage-id="this">
+    <cubx-core-init style="display:none">
+        <cubx-core-slot-init slot="artifactInfo">{
+            "webpackageId": "cubx-generic-component-viewer@1.1.0-SNAPSHOT",
+            "artifactId": "cubx-generic-component-viewer",
+            "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]},"viewerHeight":"180px","scale":"auto"},
+            "dependencies":[{"webpackageId": "bootstrap-3.3.5@1.1.1","artifactId": "bootstrap-bootstrap-css-only"}]
+            }</cubx-core-slot-init>
+        <cubx-core-slot-init slot="autoresize">true</cubx-core-slot-init>
     </cubx-core-init>
 </cubx-iframe-viewer>
 
