@@ -46,11 +46,36 @@
     },
 
     /**
-     *  Observe the Cubbles-Component-Model: If value for slot 'autoresize' has changed ...
+     *  Observe the Cubbles-Component-Model: If value for slot 'autoHeight' has changed ...
      */
-    modelAutoresizeChanged: function (autoresize) {
-      if (autoresize) {
+    modelAutoHeightChanged: function (autoHeight) {
+      if (autoHeight) {
         this._addMutationObserver();
+      }
+    },
+
+    /**
+     *  Observe the Cubbles-Component-Model: If value for slot 'height' has changed ...
+     */
+    modelHeightChanged: function (height) {
+      if (!this.getAutoHeight()) {
+        this._resizeIframe({height: height});
+      }
+    },
+
+    /**
+     *  Observe the Cubbles-Component-Model: If value for slot 'width' has changed ...
+     */
+    modelWidthChanged: function (width) {
+      this._resizeIframe({width: width});
+    },
+
+    _resizeIframe: function (dimensions) {
+      if (dimensions.width) {
+        this.$$('iframe').width = dimensions.width;
+      }
+      if (dimensions.height) {
+        this.$$('iframe').height = dimensions.height;
       }
     },
 
@@ -64,7 +89,7 @@
           var boundingRect = this._iframeDocument.querySelector(this.getArtifactInfo().artifactId).getBoundingClientRect();
           var newHeight = boundingRect.bottom + boundingRect.top;
           if (newHeight !== this._iframeDocument.height && this._iframeCifReady) {
-            this.$$('iframe').height = newHeight;
+            this._resizeIframe({height: newHeight});
           }
         }.bind(this));
       }.bind(this));
@@ -91,8 +116,12 @@
       this._iframeWindow.location.reload(true);
       this.$$('iframe').onload = function () {
         this._updateIframeReferences();
-        if (this.getAutoresize()) {
+        if (this.getAutoHeight()) {
           this._addMutationObserver();
+        } else if (this.getWidth()) {
+          this._resizeIframe({width: this.getWidth()});
+        } else if (this.getHeight()) {
+          this._resizeIframe({height: this.getHeight()});
         }
         if (afterLoadFunction) {
           afterLoadFunction();

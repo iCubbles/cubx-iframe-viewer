@@ -92,8 +92,8 @@
             ]
           },
           {
-            "slotId": "autoresize",
-            "description": "Boolean indicating whether the iframe should be resized according to content.",
+            "slotId": "autoHeight",
+            "description": "Boolean indicating whether the iframe's height should be resized according to content.",
             "type": "boolean",
             "direction": [
               "input"
