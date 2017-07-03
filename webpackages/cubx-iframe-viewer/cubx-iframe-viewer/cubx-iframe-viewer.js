@@ -63,7 +63,7 @@
         mutations.forEach(function (mutation) {
           var boundingRect = this._iframeDocument.querySelector(this.getArtifactInfo().artifactId).getBoundingClientRect();
           var newHeight = boundingRect.bottom + boundingRect.top;
-          if (newHeight !== this._iframeDocument.height) {
+          if (newHeight !== this._iframeDocument.height && this._iframeCifReady) {
             this.$$('iframe').height = newHeight;
           }
         }.bind(this));
@@ -172,6 +172,9 @@
           }
           this._injectHeadScripts(function () {
             this._iframeDocument.body.appendChild(component);
+            this._iframeDocument.addEventListener('cifReady', function () {
+              this._iframeCifReady = true;
+            }.bind(this));
             this._dispatchComponentAppendEvent();
           }.bind(this));
         }.bind(this));
