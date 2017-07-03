@@ -28,13 +28,13 @@
      * Manipulate an element’s local DOM when the element is attached to the document.
      */
     attached: function () {
+      this._updateIframeReferences();
     },
 
     /**
      * Manipulate an element’s local DOM when the cubbles framework is initialized and ready to work.
      */
     cubxReady: function () {
-      this._updateIframeReferences();
     },
 
     /**
