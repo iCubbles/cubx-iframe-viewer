@@ -132,8 +132,8 @@
             }
           );
           var component = this._iframeDocument.createElement(this.getArtifactInfo().artifactId);
-          if (this.getInits()) {
-            component.appendChild(this._createCoreInitElement(this.getInits()));
+          if (this.getArtifactInfo().inits) {
+            component.appendChild(this._createCoreInitElement(this.getArtifactInfo().inits));
           }
           this._injectHeadScripts(function () {
             this._iframeDocument.body.appendChild(component);

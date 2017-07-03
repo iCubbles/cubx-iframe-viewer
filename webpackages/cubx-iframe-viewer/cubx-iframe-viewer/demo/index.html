@@ -19,7 +19,24 @@
 </head>
 <body>
 <!--  Place cubbles components there. -->
-<cubx-iframe-viewer cubx-webpackage-id="this"></cubx-iframe-viewer>
+<cubx-iframe-viewer cubx-webpackage-id="this">
+    <cubx-core-init style="display:none">
+        <cubx-core-slot-init slot="artifactInfo">{
+            "webpackageId": "com.incowia.lib.chart-library@0.3.0",
+            "artifactId": "bar-chart"
+            }</cubx-core-slot-init>
+    </cubx-core-init>
+</cubx-iframe-viewer>
+
+<cubx-iframe-viewer cubx-webpackage-id="this">
+    <cubx-core-init style="display:none">
+        <cubx-core-slot-init slot="artifactInfo">{
+            "webpackageId": "com.incowia.lib.chart-library@0.3.0",
+            "artifactId": "bar-chart",
+            "inits":{"dataColumns":[["Product A",1000,500,1500,1100],["Product B",300,400,700,500]],"xLabels":["January","February","March","April"]}
+            }</cubx-core-slot-init>
+    </cubx-core-init>
+</cubx-iframe-viewer>
 
 </body>
 </html>
