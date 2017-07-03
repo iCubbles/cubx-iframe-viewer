@@ -6,60 +6,119 @@
     <title>&lt;cubx-iframe-viewer&gt; demo</title>
 
     <script src="../../../cubx.core.rte@2.3.1/webcomponents-lite/webcomponents-lite.js"></script>
-
-    <!--
-        Refer to the crc-loader artifact from a Cubbles-Base.
-        Take care: All other dependencies are expected to be available within the same Base!
-
-        Want to add a 'main' -script to be executed after the dependencies have been loaded?
-        If yes, add the following attribute: data-crc-main="js/my-script.js"
-    -->
+    <script>
+        window.cubx = {
+            "CRCInit": {
+                "rootDependencies": [
+                    {
+                        "webpackageId": "bootstrap-3.3.5@1.1.1",
+                        "artifactId": "bootstrap"
+                    },
+                    {
+                        "webpackageId": "highlightjs-9.3.0@1.1.0",
+                        "artifactId": "highlightjs-github-gist"
+                    }
+                ]
+            }
+        }
+    </script>
     <script src="../../../cubx.core.rte@2.3.1/crc-loader/js/main.js" data-crcinit-loadcif="true"></script>
 
 </head>
 <body>
-<!--  Place cubbles components there. -->
-<cubx-iframe-viewer cubx-webpackage-id="this">
-    <cubx-core-init style="display:none">
-        <cubx-core-slot-init slot="artifactInfo">{
-            "webpackageId": "cubx-generic-component-viewer@1.0.0",
-            "artifactId": "cubx-generic-component-viewer"
-            }</cubx-core-slot-init>
-    </cubx-core-init>
-</cubx-iframe-viewer>
+<div class="container">
+    <div class="row">
+        <h2>cubx-iframe-viewer with component artifactId and webpackageId</h2>
+        <cubx-iframe-viewer cubx-webpackage-id="this">
+            <cubx-core-init style="display:none">
+                <cubx-core-slot-init slot="artifactInfo">{
+                    "webpackageId": "cubx-generic-component-viewer@1.0.1-SNAPSHOT",
+                    "artifactId": "cubx-generic-component-viewer"
+                    }</cubx-core-slot-init>
+            </cubx-core-init>
+        </cubx-iframe-viewer>
+    </div>
+    <div class="row">
+        <h2>cubx-iframe-viewer with above information + inits</h2>
+        <cubx-iframe-viewer cubx-webpackage-id="this">
+            <cubx-core-init style="display:none">
+                <cubx-core-slot-init slot="artifactInfo">{
+                    "webpackageId": "cubx-generic-component-viewer@1.0.1-SNAPSHOT",
+                    "artifactId": "cubx-generic-component-viewer",
+                    "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]}}
+                    }</cubx-core-slot-init>
+            </cubx-core-init>
+        </cubx-iframe-viewer>
+    </div>
+    <div class="row">
+        <h2>cubx-iframe-viewer with above information + dependencies</h2>
+        <cubx-iframe-viewer id="demoDeps" cubx-webpackage-id="this">
+            <cubx-core-init style="display:none">
+                <cubx-core-slot-init slot="artifactInfo">{
+                    "webpackageId": "cubx-generic-component-viewer@1.0.1-SNAPSHOT",
+                    "artifactId": "cubx-generic-component-viewer",
+                    "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]}},
+                    "dependencies":[{"webpackageId": "bootstrap-3.3.5@1.1.1","artifactId": "bootstrap-bootstrap-css-only"}]
+                    }</cubx-core-slot-init>
+            </cubx-core-init>
+        </cubx-iframe-viewer>
+    </div>
+    <div class="row">
+        <h2>cubx-iframe-viewer with above information + custom width and custom height</h2>
+        <cubx-iframe-viewer cubx-webpackage-id="this">
+            <cubx-core-init style="display:none">
+                <cubx-core-slot-init slot="artifactInfo">{
+                    "webpackageId": "cubx-generic-component-viewer@1.0.1-SNAPSHOT",
+                    "artifactId": "cubx-generic-component-viewer",
+                    "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]}},
+                    "dependencies":[{"webpackageId": "bootstrap-3.3.5@1.1.1","artifactId": "bootstrap-bootstrap-css-only"}]
+                    }</cubx-core-slot-init>
+                <cubx-core-slot-init slot="width">"80%"</cubx-core-slot-init>
+                <cubx-core-slot-init slot="height">"300px"</cubx-core-slot-init>
+            </cubx-core-init>
+        </cubx-iframe-viewer>
+    </div>
+    <div class="row">
+        <h2>cubx-iframe-viewer with above information + autoHeight</h2>
+        <cubx-iframe-viewer cubx-webpackage-id="this">
+            <cubx-core-init style="display:none">
+                <cubx-core-slot-init slot="artifactInfo">{
+                    "webpackageId": "cubx-generic-component-viewer@1.0.1-SNAPSHOT",
+                    "artifactId": "cubx-generic-component-viewer",
+                    "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]},"viewerHeight":"180px","scale":"auto"},
+                    "dependencies":[{"webpackageId": "bootstrap-3.3.5@1.1.1","artifactId": "bootstrap-bootstrap-css-only"}]
+                    }</cubx-core-slot-init>
+                <cubx-core-slot-init slot="autoHeight">true</cubx-core-slot-init>
+            </cubx-core-init>
+        </cubx-iframe-viewer>
+    </div>
+</div>
 
-<cubx-iframe-viewer cubx-webpackage-id="this">
-    <cubx-core-init style="display:none">
-        <cubx-core-slot-init slot="artifactInfo">{
-            "webpackageId": "cubx-generic-component-viewer@1.1.0-SNAPSHOT",
-            "artifactId": "cubx-generic-component-viewer",
-            "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]}}
-            }</cubx-core-slot-init>
-    </cubx-core-init>
-</cubx-iframe-viewer>
+<script>
+    (function(){
+        'use strict';
+        document.addEventListener('cifReady', function () {
+            document.querySelectorAll('cubx-iframe-viewer ').forEach(function (component, i) {
+                var codeString = '<cubx-iframe-viewer cubx-webpackage-id="this">' +
+                        component.querySelector('cubx-core-init').outerHTML +
+                        '</cubx-iframe-viewer>';
+                var codeBlock = generateCodeBlock(codeString , 'codeBlock'+ i);
+                component.parentNode.appendChild(codeBlock);
+                component.parentNode.appendChild(document.createElement('hr'));
+            });
+        });
 
-<cubx-iframe-viewer cubx-webpackage-id="this">
-    <cubx-core-init style="display:none">
-        <cubx-core-slot-init slot="artifactInfo">{
-            "webpackageId": "cubx-generic-component-viewer@1.1.0-SNAPSHOT",
-            "artifactId": "cubx-generic-component-viewer",
-            "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]}},
-            "dependencies":[{"webpackageId": "bootstrap-3.3.5@1.1.1","artifactId": "bootstrap-bootstrap-css-only"}]
-            }</cubx-core-slot-init>
-    </cubx-core-init>
-</cubx-iframe-viewer>
-
-<cubx-iframe-viewer cubx-webpackage-id="this">
-    <cubx-core-init style="display:none">
-        <cubx-core-slot-init slot="artifactInfo">{
-            "webpackageId": "cubx-generic-component-viewer@1.1.0-SNAPSHOT",
-            "artifactId": "cubx-generic-component-viewer",
-            "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]},"viewerHeight":"180px","scale":"auto"},
-            "dependencies":[{"webpackageId": "bootstrap-3.3.5@1.1.1","artifactId": "bootstrap-bootstrap-css-only"}]
-            }</cubx-core-slot-init>
-        <cubx-core-slot-init slot="autoresize">true</cubx-core-slot-init>
-    </cubx-core-init>
-</cubx-iframe-viewer>
-
+        function generateCodeBlock(code, id) {
+            var container = document.createElement('div');
+            container.className = 'panel-group';
+            container.innerHTML = '<div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#' + id + '">Code</a> </h4> </div> <div id="' + id + '" class="panel-collapse collapse"> <div class="panel-body"> <pre><code class="html"></code></pre> </div> </div> </div>';
+            var textCode = document.createTextNode(code);
+            var codeElement = container.querySelector('code');
+            codeElement.appendChild(textCode);
+            hljs.highlightBlock(codeElement);
+            return container;
+        }
+    })();
+</script>
 </body>
 </html>
