@@ -101,20 +101,29 @@
           },
           {
             "slotId": "height",
-            "description": "Height to be set to the iframe, if autoresize=true, this will be only initial height.",
-            "type": "number",
+            "description": "Height to be set to the iframe, if autoresize=true, this will be only initial height (e.g. 100%, 100px, 100em).",
+            "type": "string",
             "direction": [
               "input"
             ]
           },
           {
             "slotId": "width",
-            "description": "Width to be set to the iframe, if autoresize=true, this will be only initial width.",
-            "type": "number",
+            "description": "Width to be set to the iframe, if autoresize=true, this will be only initial width (e.g. 100%, 100px, 100em).",
+            "type": "string",
             "direction": [
               "input"
             ],
             "value": "100%"
+          },
+          {
+            "slotId": "slotChange",
+            "description": "Allow changing the value of a slot, it should be an object such as {slot: slotName, value: slotValue}.",
+            "type": "object",
+            "direction": [
+              "input",
+              "output"
+            ]
           }
         ]
       }

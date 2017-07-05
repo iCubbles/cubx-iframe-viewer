@@ -70,6 +70,20 @@
       this._resizeIframe({width: width});
     },
 
+    /**
+     *  Observe the Cubbles-Component-Model: If value for slot 'slotChange' has changed ...
+     */
+    modelSlotChangeChanged: function (slotChange) {
+      if (this.getArtifactInfo() && this._iframeDocument.querySelector(this.getArtifactInfo().artifactId)) {
+        var component = this._iframeDocument.querySelector(this.getArtifactInfo().artifactId);
+        component['set' + this._capitalizeFirstLetter(slotChange.slot)](slotChange.value);
+      }
+    },
+
+    _capitalizeFirstLetter: function (string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+
     _resizeIframe: function (dimensions) {
       if (dimensions.width) {
         this.$$('iframe').width = dimensions.width;
