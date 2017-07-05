@@ -28,7 +28,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <h2>cubx-iframe-viewer with component artifactId and webpackageId</h2>
+        <h3 id="demo1">1) cubx-iframe-viewer with component artifactId and webpackageId</h3>
         <cubx-iframe-viewer cubx-webpackage-id="this">
             <cubx-core-init style="display:none">
                 <cubx-core-slot-init slot="artifactInfo">{
@@ -39,7 +39,7 @@
         </cubx-iframe-viewer>
     </div>
     <div class="row">
-        <h2>cubx-iframe-viewer with above information + inits</h2>
+        <h3 id="demo2">2) cubx-iframe-viewer with information from <a href="#demo1">1)</a> + inits</h3>
         <cubx-iframe-viewer cubx-webpackage-id="this">
             <cubx-core-init style="display:none">
                 <cubx-core-slot-init slot="artifactInfo">{
@@ -51,7 +51,7 @@
         </cubx-iframe-viewer>
     </div>
     <div class="row">
-        <h2>cubx-iframe-viewer with above information + dependencies</h2>
+        <h3 id="demo3">3) cubx-iframe-viewer with information from <a href="#demo2">2)</a> + dependencies</h3>
         <cubx-iframe-viewer id="demoDeps" cubx-webpackage-id="this">
             <cubx-core-init style="display:none">
                 <cubx-core-slot-init slot="artifactInfo">{
@@ -64,7 +64,7 @@
         </cubx-iframe-viewer>
     </div>
     <div class="row">
-        <h2>cubx-iframe-viewer with above information + custom width and custom height</h2>
+        <h3 id="demo4">4) cubx-iframe-viewer with information from <a href="#demo3">3)</a> + custom width and custom height</h3>
         <cubx-iframe-viewer cubx-webpackage-id="this">
             <cubx-core-init style="display:none">
                 <cubx-core-slot-init slot="artifactInfo">{
@@ -79,7 +79,7 @@
         </cubx-iframe-viewer>
     </div>
     <div class="row">
-        <h2>cubx-iframe-viewer with above information + autoHeight</h2>
+        <h3 id="demo5">5) cubx-iframe-viewer with information from <a href="#demo3">3)</a> + autoHeight</h3>
         <cubx-iframe-viewer cubx-webpackage-id="this">
             <cubx-core-init style="display:none">
                 <cubx-core-slot-init slot="artifactInfo">{
@@ -92,11 +92,42 @@
             </cubx-core-init>
         </cubx-iframe-viewer>
     </div>
+    <div class="row">
+        <h3 id="demo6">6) cubx-iframe-viewer with information from <a href="#demo3">3)</a> + 'iframeCifReady' event + component slot changing</h3>
+        <input disabled id="changeSlotNumber" type="number" min="50" value="60">
+        <span> px </span>
+        <input disabled class="btn btn-primary" id="changeSlotBtn" value="Change viewerHeight slot">
+        <cubx-iframe-viewer cubx-webpackage-id="this">
+            <cubx-core-init style="display:none">
+                <cubx-core-slot-init slot="artifactInfo">{
+                    "webpackageId": "cubx-generic-component-viewer@1.0.1-SNAPSHOT",
+                    "artifactId": "cubx-generic-component-viewer",
+                    "inits":{"definitions":{"components":{"cubx-textarea":{"artifactId":"cubx-textarea","slots":[{"slotId":"value","direction":["output","input"]}],"webpackageId":"com.incowia.basic-html-components@1.4-SNAPSHOT"}},"members":[{"memberId":"textarea1","artifactId":"cubx-textarea"},{"memberId":"textarea2","artifactId":"cubx-textarea"}],"connections":[{"connectionId":"valueCon","copyValue":true,"destination":{"memberIdRef":"textarea2","slot":"value"},"source":{"memberIdRef":"textarea1","slot":"value"},"hookFunction":null,"repeatedValues":false}]},"viewerHeight":"180px","scale":"auto"},
+                    "dependencies":[{"webpackageId": "bootstrap-3.3.5@1.1.1","artifactId": "bootstrap-bootstrap-css-only"}]
+                    }</cubx-core-slot-init>
+            </cubx-core-init>
+        </cubx-iframe-viewer>
+    </div>
 </div>
 
 <script>
     (function(){
         'use strict';
+        document.addEventListener('iframeCifReady', function (e) {
+            var setVwrHeightBtn = document.querySelector('#changeSlotBtn');
+            var setVwrHeightInput = document.querySelector('#changeSlotNumber');
+            var divContainer = setVwrHeightBtn.parentNode;
+            if (divContainer.querySelector('cubx-iframe-viewer').getAttribute('runtime-id') === e.detail.runtimeId) {
+                setVwrHeightBtn.addEventListener('click', function () {
+                    divContainer.querySelector('cubx-iframe-viewer').setSlotChange({
+                        slot: 'viewerHeight',
+                        value: setVwrHeightInput.value + 'px'
+                    })
+                });
+                setVwrHeightBtn.removeAttribute('disabled');
+                setVwrHeightInput.removeAttribute('disabled');
+            }
+        });
         document.addEventListener('cifReady', function () {
             document.querySelectorAll('cubx-iframe-viewer ').forEach(function (component, i) {
                 var codeString = '<cubx-iframe-viewer cubx-webpackage-id="this">' +
