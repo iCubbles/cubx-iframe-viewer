@@ -229,8 +229,13 @@
             this._iframeDocument.body.appendChild(component);
             this._iframeDocument.addEventListener('cifReady', function () {
               this._iframeCifReady = true;
+              this._dispatchEvent(
+                'iframeCifReady',
+                false,
+                {runtimeId: this.getAttribute('runtime-id')}
+                );
             }.bind(this));
-            this._dispatchComponentAppendEvent();
+            this._dispatchEvent('componentAppend', true);
           }.bind(this));
         }.bind(this));
       }
@@ -304,11 +309,16 @@
 
     /**
      * Dispatch 'componentAppend' event so that the CRC starts working
+     * @param {string} eventName - Name of the event to be dispatched
+     * @param {boolean} [fromIframe] - Boolean indicating whether the event is dispatched from the
+     * iframe
+     * @param {object} [data] - Data to be attached to the event
      */
-    _dispatchComponentAppendEvent: function () {
-      var event = this._iframeDocument.createEvent('CustomEvent');
-      event.initCustomEvent('componentAppend', true, true, {});
-      this._iframeDocument.dispatchEvent(event);
+    _dispatchEvent: function (eventName, fromIframe, data) {
+      var dispatcher = fromIframe ? this._iframeDocument : document;
+      var event = dispatcher.createEvent('CustomEvent');
+      event.initCustomEvent(eventName, true, true, data || {});
+      dispatcher.dispatchEvent(event);
     }
   });
 }());
