@@ -80,10 +80,22 @@
       }
     },
 
+    /**
+     * Change the first letter of a string to uppercase
+     * @param {string} string - String to be capitalize
+     * @returns {string}
+     * @private
+     */
     _capitalizeFirstLetter: function (string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
     },
 
+    /**
+     * Resize the iframe width and/or height according to 'dimensions' object
+     * @param {object} dimensions - {width: 'width', height: 'height'}, samples of valid dimension
+     * are '100px', '100em', '100%'. Both properties of 'dimensions' are optional.
+     * @private
+     */
     _resizeIframe: function (dimensions) {
       if (dimensions.width) {
         this.$$('iframe').width = dimensions.width;
