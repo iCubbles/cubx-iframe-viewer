@@ -1,4 +1,5 @@
-## cubx-iframe-viewer
+# cubx-iframe-viewer
 
-<hr/>
-Note This page is generated based on the markdown-syntax. For details see <http://daringfireball.net/projects/markdown/syntax/>
+This project contains the [cubx-iframe-viewer](https://github.com/iCubbles/cubx-iframe-viewer/tree/master/webpackages/cubx-iframe-viewer) webpackage, which contains the components to visualize components via an iframe.
+
+[Want to get to know the Cubbles Platform?](https://cubbles.github.io)
