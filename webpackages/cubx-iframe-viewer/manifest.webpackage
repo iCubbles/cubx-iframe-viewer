@@ -60,33 +60,9 @@
             ]
           },
           {
-            "slotId": "artifactId",
-            "description": "Artifact id of the component to be visualized",
+            "slotId": "rteVersion",
+            "description": "Version of the rte to be used within the iframe viewer.",
             "type": "string",
-            "direction": [
-              "input"
-            ]
-          },
-          {
-            "slotId": "webpackageId",
-            "description": "Id of the webpackage that holds the component to be visualized.",
-            "type": "string",
-            "direction": [
-              "input"
-            ]
-          },
-          {
-            "slotId": "inits",
-            "description": "Object containing key, value pairs in JSON format, e.g. {\"slot1Name\": slot1Value, \"slot2Name\": slot2Value}.",
-            "type": "object",
-            "direction": [
-              "input"
-            ]
-          },
-          {
-            "slotId": "dependencies",
-            "description": "Array containing  (JSON format) containing the dependencies like this: [{ \"webpackageId\" : \"valueX\", \"artifactId\" : \"valueY\"}, ...]..",
-            "type": "array",
             "direction": [
               "input"
             ]

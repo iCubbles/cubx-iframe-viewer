@@ -30,6 +30,7 @@
      */
     attached: function () {
       this._updateIframeReferences();
+      this._rteUrl = window.cubx.CRCInit.webpackageBaseUrl + window.cubx.CRCInit.rteWebpackageId;
     },
 
     /**
@@ -77,6 +78,19 @@
       if (this.getArtifactInfo() && this._iframeDocument.querySelector(this.getArtifactInfo().artifactId)) {
         var component = this._iframeDocument.querySelector(this.getArtifactInfo().artifactId);
         component['set' + this._capitalizeFirstLetter(slotChange.slot)](slotChange.value);
+      }
+    },
+
+    /**
+     *  Observe the Cubbles-Component-Model: If value for slot 'rteVersion' has changed ...
+     */
+    modelRteVersionChanged: function (rteVersion) {
+      var versionPattern = /^(\d+)(\.[\d]+)*(-SNAPSHOT)?$/;
+      if (versionPattern.test(rteVersion)) {
+        this._rteUrl = window.cubx.CRCInit.webpackageBaseUrl + 'cubx.core.rte@' + rteVersion;
+      } else {
+        console.error('The provided rte version (' + rteVersion + ') is not valid. Thus, ' +
+          window.cubx.CRCInit.rteWebpackageId + ' will be used.');
       }
     },
 
@@ -186,16 +200,15 @@
      * loads
      */
     _injectHeadScripts: function (onLoadCrc, onLoadWebcomponents) {
-      var rteUrl = 'https://cubbles.world/sandbox/cubx.core.rte@2.3.1';
       this._createAppendScriptElement(
         {
-          'src': rteUrl + '/webcomponents-lite/webcomponents-lite.js'
+          'src': this._rteUrl + '/webcomponents-lite/webcomponents-lite.js'
         },
         onLoadWebcomponents
       );
       this._createAppendScriptElement(
         {
-          'src': rteUrl + '/crc-loader/js/main.js',
+          'src': this._rteUrl + '/crc-loader/js/main.js',
           'data-crcinit-loadcif': 'true',
           'data-cubx-startevent': 'componentAppend'
         },
