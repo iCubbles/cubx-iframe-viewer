@@ -60,6 +60,10 @@
      */
     modelHeightChanged: function (height) {
       if (!this.getAutoHeight()) {
+        if (height.indexOf('%') !== -1) {
+          var proportion = parseInt(height.substring(0, height.indexOf('%'))) / 100;
+          height = this.parentNode.clientHeight * proportion + 'px';
+        }
         this._resizeIframe({height: height});
       }
     },
