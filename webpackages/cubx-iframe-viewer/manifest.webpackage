@@ -1,7 +1,7 @@
 {
   "name": "cubx-iframe-viewer",
   "groupId": "",
-  "version": "1.2.0-SNAPSHOT",
+  "version": "1.1.1-SNAPSHOT",
   "modelVersion": "9.1.1",
   "docType": "webpackage",
   "author": {
@@ -42,7 +42,8 @@
           }
         ],
         "resources": [
-          "cubx-iframe-viewer.html"
+          "cubx-iframe-viewer.html",
+          "iframe.html"
         ],
         "dependencies": [
           {
@@ -53,7 +54,7 @@
         "slots": [
           {
             "slotId": "artifactInfo",
-            "description": "Artifact id of the component to be visualized",
+            "description": "Artifact info of the component to be visualized",
             "type": "object",
             "direction": [
               "input"
