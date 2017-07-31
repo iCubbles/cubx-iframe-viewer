@@ -17,6 +17,8 @@
      * Manipulate an element’s local DOM when the element is created.
      */
     created: function () {
+      this._iframeLoaded = false;
+      this._baseUrl = '../../';
     },
 
     /**
@@ -30,7 +32,7 @@
      */
     attached: function () {
       this._updateIframeReferences();
-      this._rteUrl = window.cubx.CRCInit.webpackageBaseUrl + window.cubx.CRCInit.rteWebpackageId;
+      this._rteUrl = this._baseUrl + window.cubx.CRCInit.rteWebpackageId;
     },
 
     /**
@@ -50,8 +52,12 @@
      *  Observe the Cubbles-Component-Model: If value for slot 'autoHeight' has changed ...
      */
     modelAutoHeightChanged: function (autoHeight) {
-      if (autoHeight) {
-        this._addMutationObserver();
+      if (this._iframeLoaded) {
+        if (autoHeight) {
+          this._addMutationObserver();
+        } else {
+          this._removeMutationObserver();
+        }
       }
     },
 
@@ -91,7 +97,7 @@
     modelRteVersionChanged: function (rteVersion) {
       var versionPattern = /^(\d+)(\.[\d]+)*(-SNAPSHOT)?$/;
       if (versionPattern.test(rteVersion)) {
-        this._rteUrl = window.cubx.CRCInit.webpackageBaseUrl + 'cubx.core.rte@' + rteVersion;
+        this._rteUrl = this._baseUrl + 'cubx.core.rte@' + rteVersion;
       } else {
         console.error('The provided rte version (' + rteVersion + ') is not valid. Thus, ' +
           window.cubx.CRCInit.rteWebpackageId + ' will be used.');
@@ -124,22 +130,37 @@
     },
 
     /**
-     * Add a MutationObserver to call the 'postIframeHeight' method when new nodes are added to the
+     * Add a MutationObserver to change iframe height when new nodes are added to the
      * body or when the body data changes.
      */
     _addMutationObserver: function () {
-      var observer = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-          var boundingRect = this._iframeDocument.querySelector(this.getArtifactInfo().artifactId).getBoundingClientRect();
-          var newHeight = boundingRect.bottom + boundingRect.top;
-          if (newHeight !== this._iframeDocument.height && this._iframeCifReady) {
-            this._resizeIframe({height: newHeight});
-          }
+      if (!this._mutationObserving) {
+        this._observer = new MutationObserver(function (mutations) {
+          mutations.forEach(function (mutation) {
+            var boundingRect = this._iframeDocument.querySelector(this.getArtifactInfo().artifactId).getBoundingClientRect();
+            var newHeight = boundingRect.bottom + boundingRect.top;
+            if (newHeight !== this._iframeDocument.height && this._iframeCifReady) {
+              this._resizeIframe({height: newHeight});
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
+        this._observer.observe(this._iframeDocument.body, {
+          childList: true,
+          subtree: true,
+          attributes: true
+        });
+        this._mutationObserving = true;
+      }
+    },
 
-      var targetNode = this._iframeDocument.body;
-      observer.observe(targetNode, { childList: true, subtree: true, attributes: true });
+    /**
+     * Stops observing changes in body.
+     */
+    _removeMutationObserver: function () {
+      if (this._mutationObserving) {
+        this._observer.disconnect();
+        this._mutationObserving = false;
+      }
     },
 
     /**
@@ -157,8 +178,10 @@
      * @private
      */
     _reloadIframe: function (afterLoadFunction) {
+      this._iframeLoaded = false;
       this._iframeWindow.location.reload(true);
       this.$$('iframe').onload = function () {
+        this._iframeLoaded = true;
         this._updateIframeReferences();
         if (this.getAutoHeight()) {
           this._addMutationObserver();
@@ -180,16 +203,14 @@
      * @returns {Element} Created script element
      */
     _createAppendScriptElement: function (attributes, cb) {
-      var scriptElement = document.createElement('script');
+      var scriptElement = this._iframeDocument.createElement('script');
       if (attributes) {
         for (var at in attributes) {
           scriptElement.setAttribute(at, attributes[at]);
         }
       }
       if (cb) {
-        scriptElement.onload = function () {
-          cb.call(this);
-        }.bind(this);
+        scriptElement.onload = cb;
       }
       scriptElement.async = false;
       scriptElement.type = 'text/javascript';
@@ -234,6 +255,7 @@
             }
           );
           var component = this._iframeDocument.createElement(this.getArtifactInfo().artifactId);
+          component.setAttribute('webpackage-id', this.getArtifactInfo().webpackageId);
           if (this.getArtifactInfo().inits) {
             component.appendChild(this._createCoreInitElement(this.getArtifactInfo().inits));
           }
@@ -242,8 +264,8 @@
               this._addRootDependency(dep);
             }.bind(this));
           }
+          this._iframeDocument.body.appendChild(component);
           this._injectHeadScripts(function () {
-            this._iframeDocument.body.appendChild(component);
             this._iframeDocument.addEventListener('cifReady', function () {
               this._iframeCifReady = true;
               this._dispatchEvent(
@@ -304,7 +326,7 @@
      * @returns {Element} 'cubx-core-slot-init' element to initialize a component's slot
      */
     _createCoreSlotInitElement: function (slotName, slotValue) {
-      var coreSlotInit = document.createElement('cubx-core-slot-init');
+      var coreSlotInit = this._iframeDocument.createElement('cubx-core-slot-init');
       coreSlotInit.setAttribute('slot', slotName);
       coreSlotInit.textContent = JSON.stringify(slotValue);
       return coreSlotInit;
@@ -316,7 +338,7 @@
      * @returns {Element} 'cubx-core-init' element to initialize a component
      */
     _createCoreInitElement: function (inits) {
-      var coreInit = document.createElement('cubx-core-init');
+      var coreInit = this._iframeDocument.createElement('cubx-core-init');
       coreInit.style.display = 'none';
       for (var key in inits) {
         coreInit.appendChild(this._createCoreSlotInitElement(key, inits[key]));
