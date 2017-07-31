@@ -17,7 +17,7 @@ For example, lets initialize the `artifactInfo` slot to get the basic package of
 <cubx-iframe-viewer cubx-webpackage-id="cubx-iframe-viewer@1.1.1"></cubx-iframe-viewer>
 	<!--Initilization-->
 	<cubx-core-init style="display:none">
-		<cubx-core-slot-init slot="artifactInfo">{ "webpackageId": "cubx-generic-component-viewer@1.0.1", "artifactId": "cubx-generic-component-viewer" }</cubx-core-slot-init>
+		<cubx-core-slot-init slot="artifactInfo">{ "webpackageId": "cubx-generic-component-viewer@1.1.1", "artifactId": "cubx-generic-component-viewer" }</cubx-core-slot-init>
 	</cubx-core-init>
 </cubx-iframe-viewer>
 ```
@@ -27,7 +27,7 @@ var component= document.querySelector('cubx-iframe-viewer');
 // Wait until CIF is ready
 document.addEventListener('cifReady', function() {
 	// Manipulate slots
-	component.setArtifactInfo({ "webpackageId": "cubx-generic-component-viewer@1.0.1", "artifactId": "cubx-generic-component-viewer" });
+	component.setArtifactInfo({ "webpackageId": "cubx-generic-component-viewer@1.1.1", "artifactId": "cubx-generic-component-viewer" });
 });
 ```
 [Want to get to know the Cubbles Platform?](https://cubbles.github.io)
